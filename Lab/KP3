@@ -1,0 +1,81 @@
+#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+    int sample2[8]={-1430650880,-1157627904,3145728,-1442185216,184549376,11534336,655360,3840};
+    int sample1[8]={-1413863686, -1146374827,-1162027246,-1442185216,184549376,11534336,655360,179026592};
+    int arr[8][8]={0};
+    for(int i=0; i<8; i++){
+        int current=sample1[i];
+        for(int j=0; j<8; j++){
+            arr[i][7-j]=current & 0xF;
+            current = current >> 4;
+        }
+    }
+    char arr2[8][8]={'0'};
+    for (int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            switch(arr[i][j]){
+            case 0: arr2[i][j]='0';
+            break;
+            case 1: arr2[i][j]='1';
+            break;
+            case 2: arr2[i][j]='2';
+            break;
+            case 3: arr2[i][j]='3';
+            break;
+            case 4: arr2[i][j]='4';
+            break;
+            case 5: arr2[i][j]='5';
+            break;
+            case 6: arr2[i][j]='6';
+            break;
+            case 7: arr2[i][j]='7';
+            break;
+            case 8: arr2[i][j]='8';
+            break;
+            case 9: arr2[i][j]='9';
+            break;
+            case 10: arr2[i][j]='A';
+            break;
+            case 11: arr2[i][j]='B';
+            break;
+            case 12: arr2[i][j]='C';
+            break;
+            case 13: arr2[i][j]='D';
+            break;
+            case 14: arr2[i][j]='E';
+            break;
+            case 15: arr2[i][j]='F';
+            break;
+            }
+        }
+    }
+    int count=0;
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            if(arr2[i][j]=='A' && arr2[i][j+1]=='B' && arr2[i][j+2]=='B' && arr2[i][j+3]=='A') count++;                    //Вправо
+            if(arr2[i][j]=='A' && arr2[i][j+1]=='B' && arr2[i][j+2]=='B' && arr2[i+1][j+2]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j+1]=='B' && arr2[i+1][j+1]=='B' && arr2[i+1][j+2]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j+1]=='B' && arr2[i+1][j+1]=='B' && arr2[i+2][j+1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j+1]=='B' && arr2[i+1][j+1]=='B' && arr2[i+1][j]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i+1][j]=='B' && arr2[i+1][j+1]=='B' && arr2[i+1][j+2]=='A') count++;                //Вниз
+            if(arr2[i][j]=='A' && arr2[i+1][j]=='B' && arr2[i+1][j+1]=='B' && arr2[i+2][j+1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i+1][j]=='B' && arr2[i+2][j]=='B' && arr2[i+2][j+1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i+1][j]=='B' && arr2[i+2][j]=='B' && arr2[i+3][j]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i+1][j]=='B' && arr2[i+1][j+1]=='B' && arr2[i][j+1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j-1]=='B' && arr2[i][j-2]=='B' && arr2[i][j-3]=='A') count++;                    //Влево
+            if(arr2[i][j]=='A' && arr2[i][j-1]=='B' && arr2[i][j-2]=='B' && arr2[i-1][j-2]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j-1]=='B' && arr2[i-1][j-1]=='B' && arr2[i-1][j-2]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j-1]=='B' && arr2[i-1][j-1]=='B' && arr2[i-2][j-1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i][j-1]=='B' && arr2[i-1][j-1]=='B' && arr2[i-1][j]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i-1][j]=='B' && arr2[i-1][j-1]=='B' && arr2[i-1][j-2]=='A') count++;                //Вверх
+            if(arr2[i][j]=='A' && arr2[i-1][j]=='B' && arr2[i-1][j-1]=='B' && arr2[i-2][j-1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i-1][j]=='B' && arr2[i-2][j]=='B' && arr2[i-2][j-1]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i-1][j]=='B' && arr2[i-2][j]=='B' && arr2[i-3][j]=='A') count++;
+            if(arr2[i][j]=='A' && arr2[i-1][j]=='B' && arr2[i-1][j-1]=='B' && arr2[i][j-1]=='A') count++;
+        }
+    }
+    printf("%d",count/2);
+    return 0;
+}
