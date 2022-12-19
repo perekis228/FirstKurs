@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <math.h>
+int PON(const char *expr, int i){                                    //поиск + или - перед числом или х
+    for(i; expr[i]; i--){
+        if(expr[i]=='-') return -1;
+        if(expr[i]=='+') return 1;
+    }
+    return 1;
+}
+int num(const char *expr, int i){                                    //число перед х
+    int multi=0;
+    double deg=0.0;
+    for(i;expr[i] || expr[i]!='-' || expr[i]!='+';i--){
+        multi=multi+(expr[i]-'0')*pow(10.0,deg);
+        deg++;
+    }
+    return multi;
+}
+double polynom(const char *expr, double x){
+    double res = 0.0, cur = 0.0, Free = 0.0, RealFree = 0.0, deg = 0.0;
+    int k = 0;
+    for(int i = 0; expr[i]; i++){
+        if(expr[i]=='x' && expr[i+1]=='^' && expr[i+2]=='4'){         //х в 4 степени
+            cur=x*x*x*x;
+            if(expr[i-1]=='*') cur=cur*num(expr,i);
+            cur=cur*PON(expr,i);
+        }
+        res=res+cur;
+        cur=0;
+        if(expr[i]=='x' && expr[i+1]=='^' && expr[i+2]=='3'){         //х в 3 степени
+            cur=x*x*x;
+            if(expr[i-1]=='*') cur=cur*num(expr,i);
+            cur=cur*PON(expr,i);
+        }
+        res=res+cur;
+        cur=0;
+        if(expr[i]=='x' && expr[i+1]=='^' && expr[i+2]=='2'){         //х в 2 степени
+            cur=x*x;
+            if(expr[i-1]=='*') cur=cur*num(expr,i);
+            cur=cur*PON(expr,i);
+        }
+        res=res+cur;
+        cur=0;
+        if(expr[i]=='x' && expr[i+1]!='^'){                           //х в 1 степени
+            cur=x;
+            if(expr[i-1]=='*') cur=cur*num(expr,i);
+            cur=cur*PON(expr,i);
+        }
+        res=res+cur;
+        cur=0;
+        }
+        for(k = 0; expr[k]; k++){                                     //свободный член
+            switch(expr[k]){
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    Free=Free+expr[k]*pow(10.0,k);
+                    deg++;
+                    break;
+                case '*':
+                    Free=0;
+                    deg=0;
+                    break;
+                case ' ':
+                case '+':
+                case '-':
+                    if(Free!=0) RealFree = Free;
+            }
+        }
+        res=res+RealFree*PON(expr,k);
+    return res;
+}
+int main()
+{
+    double x=1.0;
+    const char *expr = "-2 + x - 3*x^2 +x^4 +5*x^3";
+    printf("y(%f)=%s returns %f", x, expr, polynom(expr, x));
+    return 0;
+}
