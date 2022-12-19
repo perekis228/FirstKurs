@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <math.h>
+int main(){
+    double coord[] = {76, 67.1, -8.3, 18, 55, 93.3, 77, 33, 21.3, 99, -20, 50, -8.3, 82, 55, 6.7,  21.3, 0.76};
+    int n = (sizeof(coord)/sizeof(double))/2, curCorn = 0, curCoord = 0;        //Кол-во углов
+    float corner[sizeof(coord)/sizeof(double)/2][3]={0};                        //Перевод координат в двумерный массив
+    for(int i=0; i<n; i++){                                                     
+        corner[curCorn][0]=coord[curCoord];
+        corner[curCorn][1]=coord[curCoord+1];
+        curCorn++;
+        curCoord+=2;
+    }
+    double centerX = 0, centerY = 0;                                            //Нахождение центра фигуры
+    for(int i=0; i<n; i++){                                                     
+        centerX+=corner[i][0];
+        centerY+=corner[i][1];
+    }
+    centerX=centerX/n;
+    centerY=centerY/n;                                                          //----------------------
+    for(int i=0; i<n; i++){                                                     //Координаты точек относительно центра фигуры
+        corner[i][0]=corner[i][0]-centerX;
+        corner[i][1]=corner[i][1]-centerY;                                      //----------------------
+        corner[i][2]=atan2(corner[i][0],corner[i][1])*180/3.14;                 //Угол через арктангенc
+    }                                                                           //----------------------
+    double temp=0;                                                              //Сортировка углов по возрастнию
+    for(int i=0; i<n-1; i++){
+        for(int j=i+1; j<n; j++){
+            if(corner[j][2]<corner[i][2]){
+                temp=corner[i][0];
+                corner[i][0]=corner[j][0];
+                corner[j][0]=temp;
+                temp=corner[i][1];
+                corner[i][1]=corner[j][1];
+                corner[j][1]=temp;
+                temp=corner[i][2];
+                corner[i][2]=corner[j][2];
+                corner[j][2]=temp;
+            }
+        }
+    }                                                                           //----------------------
+    double perimeter = 0;                                                       //Вычислние приметра
+    for (int i=0; i<n-1; i++) {
+        perimeter=perimeter+sqrtl((corner[i+1][0]-corner[i][0])*(corner[i+1][0]-corner[i][0])+(corner[i+1][1]-corner[i][1])*(corner[i+1][1]-corner[i][1]));
+    }
+        perimeter=perimeter+sqrtl((corner[0][0]-corner[n-1][0])*(corner[0][0]-corner[n-1][0])+(corner[0][1]-corner[n-1][1])*(corner[0][1]-corner[n-1][1]));
+    printf("%lf", perimeter);
+}
