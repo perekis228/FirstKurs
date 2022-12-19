@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int Calc(char *exp)
-{
+int Calc(char *exp){
     if(exp[0]=='x'){
         switch(exp[3]){
             case '+': return (exp[2]-48)+(exp[4]-48);
